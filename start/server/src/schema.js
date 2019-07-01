@@ -23,11 +23,22 @@ const typeDefs = gql`
         cancelTrip(launchId: ID!): TripUpdateResponse!
 
         login(email: String): String # login token
-
-        # The first argument passed into our resolver is the parent, which refers to the mission object. The second argument is the size we pass to our missionPatch field, which we use to determine which property on the mission object we want our field to resolve to.
-        missionPatch(mission: String, size: PatchSize): String
     }
 
+    type TripUpdateResponse {
+        success: Boolean!
+        message: String
+        launches: [Launch]
+    }
+
+    """
+    simple wrapper around our list of launches that contains a cursor to the last item in the list. pass this cursor to the launches query to fetch results after these.
+    """
+    type LaunchConnection {
+        cursor: String!
+        hasMore: Boolean!
+        launches: [Launch]!
+    }    
     type Launch {
         id: ID!
         site: String
@@ -50,25 +61,13 @@ const typeDefs = gql`
 
     type Mission {
         name: String
+        # The first argument passed into our resolver is the parent, which refers to the mission object. The second argument is the size we pass to our missionPatch field, which we use to determine which property on the mission object we want our field to resolve to.
         missionPatch(size: PatchSize): String
     }
 
     enum PatchSize {
         SMALL
         LARGE
-    }    
-
-    type TripUpdateResponse {
-        success: Boolean!
-        message: String
-        launches: [Launch]
-    }
-
-    # simple wrapper around our list of launches that contains a cursor to the last item in the list. pass this cursor to the launches query to fetch results after these.
-    type LaunchConnection {
-        cursor: String!
-        hasMore: Boolean!
-        launches: [Launch]!
     }    
 `
 

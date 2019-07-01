@@ -1,4 +1,6 @@
 const { ApolloServer } = require('apollo-server');
+const isEmail = require('isemail');
+
 const typeDefs = require('./schema');
 const { createStore } = require('./utils'); // set up database
 const resolvers = require('./resolvers'); // connect resolvers to apollo server
