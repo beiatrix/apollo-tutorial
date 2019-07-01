@@ -29,6 +29,14 @@ module.exports = {
             dataSources.launchAPI.getLaunchById({ launchId: id }),
         me: (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser()
     },
+    Mutation: {
+        // login resolver receives an email address and returns a token if a user exists
+        // later, we save that token on the client
+        login: async(_, { email }, { dataSources }) => {
+            const user = await dataSources.userAPI.findOrCreateUser({ email })
+            if (user) return Buffer.from(email).toString('base64')
+        }
+    },
     Launch: {
         isBooked: async(launch, _, { dataSources }) => 
             dataSources.userAPI.isBookedOnLaunch({ launchId: launch.id })
