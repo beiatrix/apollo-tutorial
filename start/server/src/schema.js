@@ -23,6 +23,9 @@ const typeDefs = gql`
         cancelTrip(launchId: ID!): TripUpdateResponse!
 
         login(email: String): String # login token
+
+        # The first argument passed into our resolver is the parent, which refers to the mission object. The second argument is the size we pass to our missionPatch field, which we use to determine which property on the mission object we want our field to resolve to.
+        missionPatch(mission: String, size: PatchSize): String
     }
 
     type Launch {
