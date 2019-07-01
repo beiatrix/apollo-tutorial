@@ -7,7 +7,7 @@ module.exports = {
         // second argument refers to any `arguments` passed into our query
         // finally destructure data sources from third argument, `context` to call them into our resolvers
         launches: async (_, { pageSize = 20, after }, { dataSources }) => {
-            const allLaunches = await dataSources.launchAPI.getAlLaunches()
+            const allLaunches = await dataSources.launchAPI.getAllLaunches()
             // we want these in reverse chronological order
             allLaunches.reverse()
             const launches = paginateResults({ 
@@ -28,5 +28,12 @@ module.exports = {
         launch: (_, { id }, { dataSources }) => 
             dataSources.launchAPI.getLaunchById({ launchId: id }),
         me: (_, __, { dataSources }) => dataSources.userAPI.findOrCreateUser()
+    },
+    Mission: {
+        missionPatch: (mission, { size } = { size: 'LARGE' }) => {
+            return size === 'SMALL'
+                ? mission.missionPatchSmall
+                : mission.missionPatchLarge
+        }
     }
 }
