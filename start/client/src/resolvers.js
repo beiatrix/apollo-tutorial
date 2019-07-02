@@ -31,5 +31,18 @@ export const resolvers = {
             const { cartItems } = cache.readQuery({ query: GET_CART_ITEMS })
             return cartItems.includes(launch.id)
         }
+    },
+    // In this resolver, we destructure the Apollo cache from the context in order to read the query that fetches cart items. Once we have our cart data, we either remove or add the cart item's id passed into the mutation to the list. Finally, we return the updated list from the mutation.
+    Mutation: {
+        addOrRemoveFromCart: (_, { id }, { cache }) => {
+          const { cartItems } = cache.readQuery({ query: GET_CART_ITEMS });
+          const data = {
+            cartItems: cartItems.includes(id)
+              ? cartItems.filter(i => i !== id)
+              : [...cartItems, id],
+          };
+          cache.writeQuery({ query: GET_CART_ITEMS, data });
+          return data.cartItems;
+        },
     }
 }
