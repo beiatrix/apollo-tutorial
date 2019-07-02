@@ -15,6 +15,7 @@ const LOGIN_USER = gql `
 // bind the above mutation to our component by passing it to the mutation prop
 export default function Login() {
     return (
+    // ApolloConsumer takes a render prop function as a child that is called with the client instance. Let's wrap our Mutation component with  ApolloConsumer to expose the client.
       <ApolloConsumer>
         {client => (
           <Mutation
