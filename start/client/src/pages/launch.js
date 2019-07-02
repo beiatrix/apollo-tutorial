@@ -8,25 +8,21 @@ import Header from '../components/header';
 import ActionButton from '../containers/action-button';
 import LaunchDetail from '../components/launch-detail';
 
+import { LAUNCH_TILE_DATA } from './launches'
+
 // query
 export const GET_LAUNCH_DETAILS = gql`
-    query LaunchDetails($launchId: ID!) {
-        launch(id: $launchId) {
-            id
-            site
-            isBooked
-            rocket {
-                id 
-                name
-                type
-            }
-            mission {
-                name
-                missionPatch
-            }
-        }
+  query LaunchDetails($launchId: ID!) {
+    launch(id: $launchId) {
+      site
+      rocket {
+        type
+      }
+      ...LaunchTile
     }
-`
+  }
+  
+${LAUNCH_TILE_DATA}`;
 
 // Query component to execute query
 export default function Launch({ launchId }) {
