@@ -1,6 +1,5 @@
 import React, { Fragment } from 'react';
 import { Router } from '@reach/router';
-
 import Launch from './launch';
 import Launches from './launches';
 import Cart from './cart';
@@ -18,7 +17,7 @@ export default function Pages() {
           <Profile path="profile" />
         </Router>
       </PageContainer>
-      <Footer />
+      {/* <Footer /> */}
     </Fragment>
   );
 }
